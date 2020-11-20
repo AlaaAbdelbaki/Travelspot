@@ -43,7 +43,8 @@ public class FirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FirstFragment()).commit();
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
+                R.anim.fade_out).add(R.id.fragment_container,new FirstFragment()).commit();
 
 
 
