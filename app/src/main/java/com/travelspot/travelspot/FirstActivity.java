@@ -1,11 +1,15 @@
 package com.travelspot.travelspot;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -18,12 +22,19 @@ public class FirstActivity extends AppCompatActivity {
     VideoView videoBg;
     MediaPlayer mMediaPlayer;
     int mCurrentVideoPosition;
-    SignInButton googleSingIn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //For transparent status bar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
         try {
-            TimeUnit.MILLISECONDS.sleep(1500);
+            TimeUnit.MILLISECONDS.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -32,14 +43,15 @@ public class FirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
-        googleSingIn = findViewById(R.id.signIn);
-        TextView textview = (TextView) googleSingIn.getChildAt(0);
-        textview.setText("Sign in with Google");
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new FirstFragment()).commit();
+
+
 
         playVideo();
 
 
         videoBg.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
                 mMediaPlayer = mediaPlayer;
@@ -54,10 +66,6 @@ public class FirstActivity extends AppCompatActivity {
         });
 
     }
-    /*================================ Important Section! ================================
-    We must override onPause(), onResume(), and onDestroy() to properly handle our
-    VideoView.
-     */
 
     void playVideo(){
         videoBg = findViewById(R.id.bgVideo);

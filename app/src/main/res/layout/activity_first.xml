@@ -16,7 +16,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,31 +26,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical"
         android:background="#B3000000">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_with_text"/>
-
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/signIn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"/>
-        <Button
-            android:id="@+id/signInEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign in with email"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/rounded_btn"/>
-    </LinearLayout>
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
