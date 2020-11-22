@@ -90,6 +90,7 @@ public class FirstFragment extends Fragment {
             // Signed in successfully, show authenticated UI here.
             Intent mainScreen = new Intent(getActivity(),MainActivity.class);
             startActivity(mainScreen);
+            getActivity().finish();
 
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.

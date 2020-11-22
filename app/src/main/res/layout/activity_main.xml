@@ -6,14 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <FrameLayout
+        android:id="@+id/homeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </FrameLayout>
+
     <com.iammert.library.readablebottombar.ReadableBottomBar
     android:id="@+id/bottomBar"
     android:layout_width="match_parent"
     android:layout_height="56dp"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:rbb_tabs="@xml/tabs"
-    app:rbb_backgroundColor="@color/darkBlue"
-    app:rbb_textColor="#FFF"/>
+    app:rbb_tabs="@xml/tabs"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

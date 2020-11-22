@@ -55,7 +55,6 @@ public class FirstActivity extends AppCompatActivity {
 
 
 
-
         //play background video
         playVideo();
 
