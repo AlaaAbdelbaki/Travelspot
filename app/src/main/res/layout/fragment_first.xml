@@ -28,15 +28,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/signUpEmail"
+        android:id="@+id/signInEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/rounded_btn"
-        android:text="Sign up with email"
-        android:textColor="#FFFFFF"
+        android:text="Sign in with email"
+        android:textColor="@color/btn_text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

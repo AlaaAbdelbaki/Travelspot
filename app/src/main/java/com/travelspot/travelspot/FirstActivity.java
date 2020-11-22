@@ -13,6 +13,10 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 
 import java.util.concurrent.TimeUnit;
@@ -22,6 +26,7 @@ public class FirstActivity extends AppCompatActivity {
     VideoView videoBg;
     MediaPlayer mMediaPlayer;
     int mCurrentVideoPosition;
+    GoogleSignInClient mGoogleSignInClient;
 
 
     @Override
@@ -33,6 +38,7 @@ public class FirstActivity extends AppCompatActivity {
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
+        //For 500 ms splash screen
         try {
             TimeUnit.MILLISECONDS.sleep(500);
         } catch (InterruptedException e) {
@@ -43,14 +49,17 @@ public class FirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
+        //Load first fragment
         getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
                 R.anim.fade_out).add(R.id.fragment_container,new FirstFragment()).commit();
 
 
 
+
+        //play background video
         playVideo();
 
-
+        //loop background video
         videoBg.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override

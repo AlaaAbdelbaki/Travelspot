@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab drawable = "@drawable/home"
+        text="@string/home"/>
+    <tab drawable = "@drawable/group"
+        text="@string/feed"/>
+    <tab drawable = "@drawable/add"
+        text="@string/add_trip"/>
+    <tab drawable = "@drawable/search"
+        text="@string/discover"/>
+    <tab drawable = "@drawable/face"
+        text="@string/profile"/>
+
+</tabs>
