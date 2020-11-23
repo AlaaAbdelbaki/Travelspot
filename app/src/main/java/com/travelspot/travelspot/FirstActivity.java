@@ -45,6 +45,7 @@ public class FirstActivity extends AppCompatActivity {
         {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         }else {
 
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);

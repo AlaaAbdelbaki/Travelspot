@@ -65,7 +65,7 @@ public class LoginFragment extends Fragment {
             Log.i("USER LOGGED", "Allready logged in");
         }else
         {
-            userStatesEdit.putBoolean("isLogged",false);
+            userStatesEdit.putString("email",null);
             userStatesEdit.putBoolean("Remembered",false);
             userStatesEdit.apply();
         }
@@ -86,9 +86,9 @@ public class LoginFragment extends Fragment {
                             boolean res = response.body();
                             if(res)
                             {
+                                userStatesEdit.putString("email",emailInput.getText().toString());
                                 if(rememberMe.isChecked())
                                 {
-                                    userStatesEdit.putBoolean("isLogged",true);
                                     userStatesEdit.putBoolean("Remembered",true);
                                     userStatesEdit.apply();
                                 }
