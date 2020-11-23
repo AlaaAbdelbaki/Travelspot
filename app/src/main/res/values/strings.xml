@@ -9,4 +9,5 @@
     <string name="add_trip">Add trip</string>
     <string name="discover">Discover</string>
     <string name="profile">Profile</string>
+    <string name="Disconnect">Disconnect</string>
 </resources>
