@@ -10,4 +10,7 @@
     <string name="discover">Discover</string>
     <string name="profile">Profile</string>
     <string name="Disconnect">Disconnect</string>
+    <string name="Like">Like</string>
+    <string name="Comments">Comments</string>
+
 </resources>
