@@ -13,6 +13,8 @@ public class User {
     private String lastName;
     @SerializedName("email")
     private String email;
+    @SerializedName("profilePicture")
+    private String profilePicture;
     @SerializedName("password")
     private String password;
     @SerializedName("token")
@@ -22,15 +24,27 @@ public class User {
     @SerializedName("updatedAt")
     private Date updatedAt;
 
-    public User(int id, String firstName, String lastName, String email, String password, String token, Date createdAt, Date updatedAt) {
+    public User(int id, String firstName, String lastName, String email, String profilePicture, String password, String token, Date createdAt, Date updatedAt) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.profilePicture = profilePicture;
         this.password = password;
         this.token = token;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public User()
+    {
+
+    }
+
+    public User(String email,String password)
+    {
+        this.email = email;
+        this.password = password;
     }
 
     public int getId() {
@@ -97,4 +111,7 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
+    public String getProfilePicture() { return profilePicture; }
+
+    public void setProfilePicture(String profilePicture) { this.profilePicture = profilePicture; }
 }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.travelspot.travelspot.Models.ServicesClient;
+import com.travelspot.travelspot.Models.User;
 import com.travelspot.travelspot.Models.UserServices;
 
 import retrofit2.Call;
@@ -78,38 +79,12 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(v.getContext(),"Email or Password Empty", Toast.LENGTH_SHORT).show();
                 }else
                 {
-
-                    Call<Boolean> call = userServices.checkLogin(emailInput.getText().toString(),passwordInput.getText().toString());
-                    call.enqueue(new Callback<Boolean>() {
-                        @Override
-                        public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                            boolean res = response.body();
-                            if(res)
-                            {
-                                userStatesEdit.putString("email",emailInput.getText().toString());
-                                if(rememberMe.isChecked())
-                                {
-                                    userStatesEdit.putBoolean("Remembered",true);
-                                    userStatesEdit.apply();
-                                }
-                                Toast.makeText(v.getContext(),"User Exist and password correct", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getActivity(), MainActivity.class);
-                                startActivity(intent);
-                            }else
-                                Toast.makeText(v.getContext(),"Email or Password Incorrect", Toast.LENGTH_SHORT).show();
-                            Log.i("Response","Response is here ");
-                        }
-
-                        @Override
-                        public void onFailure(Call<Boolean> call, Throwable t) {
-
-                            call.cancel();
-                        }
-                    });
-
+                    checkLogin(emailInput.getText().toString(),passwordInput.getText().toString());
                 }
             }
         });
+
+
 
 
         signup.setOnClickListener(new View.OnClickListener() {
@@ -121,5 +96,52 @@ public class LoginFragment extends Fragment {
         });
 
         return v;
+    }
+    private void checkLogin(String email, String password){
+        final User user = new User(email,password);
+        Call<Boolean> call = userServices.checkLogin(user);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+
+
+
+
+
+                Boolean user = response.body();
+
+                    if(!user)
+                    {
+                        Toast.makeText(getContext(),"Email or Password incorrect", Toast.LENGTH_SHORT).show();
+                        Log.d("Response", "Incorrect");
+                        return;
+                    }
+
+                    if(user)
+                    {
+                        Log.d("Response", "correct");
+                        userStatesEdit.putString("email",emailInput.getText().toString());
+                        if(rememberMe.isChecked())
+                        {
+                            userStatesEdit.putBoolean("Remembered",true);
+                            userStatesEdit.apply();
+                        }
+                        Toast.makeText(getContext(),"User Exist and password correct", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
+                    }
+
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+
     }
 }
