@@ -104,10 +104,6 @@ public class LoginFragment extends Fragment {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
 
-
-
-
-
                 Boolean user = response.body();
 
                     if(!user)
