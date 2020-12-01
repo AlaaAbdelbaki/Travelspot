@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="20dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,12 +13,11 @@
         android:gravity="center|left"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profilePicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:layout_width="92dp"
+            android:layout_height="53dp"
+            android:layout_weight="1" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +40,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <EditText
+    <TextView
         android:id="@+id/Body"
         android:layout_width="match_parent"
         android:layout_height="165dp"
@@ -73,15 +72,15 @@
             android:gravity="center|start"
             android:orientation="horizontal">
 
-            <ImageButton
+            <com.like.LikeButton
                 android:id="@+id/button_like"
 
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/baseline_favorite_border_red_900_24dp"
-                android:text="@string/Like" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                app:like_drawable="@drawable/thumb_on"
+                app:unlike_drawable="@drawable/thumb_off" />
 
             <TextView
                 android:id="@+id/textView4"

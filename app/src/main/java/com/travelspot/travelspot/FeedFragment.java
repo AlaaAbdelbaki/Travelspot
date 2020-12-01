@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.travelspot.travelspot.Adapters.PostAdapter;
 import com.travelspot.travelspot.Models.Post;
+import com.travelspot.travelspot.Models.PostsCallBack;
 import com.travelspot.travelspot.Models.PostsServices;
 import com.travelspot.travelspot.Models.ServicesClient;
 
@@ -29,6 +30,7 @@ public class FeedFragment extends Fragment {
     ArrayList<Post> posts = new ArrayList<Post>();
     PostAdapter mAdapter;
     PostsServices postsServices;
+    PostsCallBack postsCallBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,15 +44,28 @@ public class FeedFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-       /*Call<ArrayList<Post>> call = postsServices.getPosts();
+        loadPostsData(postsCallBack);
+
+        return v;
+    }
+
+    public void loadPostsData(final PostsCallBack postsCallBack)
+    {
+        Call<ArrayList<Post>> call = postsServices.getPosts();
+
         call.enqueue(new Callback<ArrayList<Post>>() {
             @Override
             public void onResponse(Call<ArrayList<Post>> call, Response<ArrayList<Post>> response) {
                 ArrayList<Post> res = response.body();
                 if(!res.isEmpty())
                 {
+                    ArrayList<Post> posts;
                     posts=res;
-                    Log.d("POSTS", posts.toString());
+                    mAdapter = new PostAdapter(getContext(),posts);
+                    recyclerView.setAdapter(mAdapter);
+
+                    //postsInterface.loadPosts(list);
+                    Log.d("POSTS1", posts.get(0).getBody());
 
                 }else{
                     Log.d("Failure","Res is empty");
@@ -60,20 +75,9 @@ public class FeedFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<Post>> call, Throwable t) {
 
+                postsCallBack.onError();
             }
-        });*/
-
-        posts.add(new Post(1));
-        posts.add(new Post(2));
-        posts.add(new Post(3));
-        posts.add(new Post(4));
-        posts.add(new Post(5));
-        mAdapter = new PostAdapter(getContext(),posts);
-        recyclerView.setAdapter(mAdapter);
-
-
-
-        return v;
+        });
     }
 
 

@@ -30,8 +30,6 @@ import com.cloudinary.android.MediaManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
-import com.r4sh33d.slidingupmenu.SlidingUpMenu;
-import com.r4sh33d.slidingupmenu.utils.MenuType;
 import com.squareup.picasso.Picasso;
 import com.travelspot.travelspot.Models.Country;
 import com.travelspot.travelspot.Models.Follower;
@@ -41,17 +39,7 @@ import com.travelspot.travelspot.Models.ServicesClient;
 import com.travelspot.travelspot.Models.User;
 import com.travelspot.travelspot.Models.UserServices;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
