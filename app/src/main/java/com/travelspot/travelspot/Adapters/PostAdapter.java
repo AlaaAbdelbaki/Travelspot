@@ -1,6 +1,7 @@
 package com.travelspot.travelspot.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,11 +44,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.FeedHolder> {
         holder.Location.setText("Tunisia");
         holder.Body.setText("TEST BODY");
 
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return posts.size();
     }
 
     public static class FeedHolder extends RecyclerView.ViewHolder{

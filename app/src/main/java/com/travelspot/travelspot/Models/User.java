@@ -1,27 +1,37 @@
 package com.travelspot.travelspot.Models;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
 public class User {
     @SerializedName("id")
+    @Expose
     private int id;
     @SerializedName("firstName")
+    @Expose
     private String firstName;
     @SerializedName("lastName")
+    @Expose
     private String lastName;
     @SerializedName("email")
+    @Expose
     private String email;
     @SerializedName("profilePicture")
+    @Expose
     private String profilePicture;
     @SerializedName("password")
+    @Expose
     private String password;
     @SerializedName("token")
+    @Expose
     private String token;
     @SerializedName("createdAt")
+    @Expose
     private Date createdAt;
     @SerializedName("updatedAt")
+    @Expose
     private Date updatedAt;
 
     public User(int id, String firstName, String lastName, String email, String profilePicture, String password, String token, Date createdAt, Date updatedAt) {
@@ -114,4 +124,19 @@ public class User {
     public String getProfilePicture() { return profilePicture; }
 
     public void setProfilePicture(String profilePicture) { this.profilePicture = profilePicture; }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", password='" + password + '\'' +
+                ", token='" + token + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }

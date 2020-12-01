@@ -36,17 +36,20 @@ public class FirstActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
-        userStates = getApplicationContext().getSharedPreferences("userStates", MODE_PRIVATE);
 
+        mMediaPlayer = new MediaPlayer();
+        userStates = getApplicationContext().getSharedPreferences("userStates", MODE_PRIVATE);
         if(userStates.getBoolean("Remembered", false))
         {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
-        }else {
+        }
+
 
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
             //For transparent status bar
@@ -88,9 +91,6 @@ public class FirstActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
-
-
     }
 
     void playVideo(){

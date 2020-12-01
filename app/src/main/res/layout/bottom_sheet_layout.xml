@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change profile picture"
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"/>
+    <Button
+        android:id="@+id/openCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Open Camera"
+
+        android:textColor="#FFF"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/ic_camera"/>
+    <Button
+        android:id="@+id/choosePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Choose a photo"
+        android:textColor="#FFF"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/ic_image"/>
+
+</LinearLayout>

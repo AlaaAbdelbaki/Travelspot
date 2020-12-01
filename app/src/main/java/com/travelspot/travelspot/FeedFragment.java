@@ -26,7 +26,7 @@ import retrofit2.Response;
 public class FeedFragment extends Fragment {
 
     RecyclerView recyclerView;
-    ArrayList<Post> posts;
+    ArrayList<Post> posts = new ArrayList<Post>();
     PostAdapter mAdapter;
     PostsServices postsServices;
 
@@ -40,10 +40,9 @@ public class FeedFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(true);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
-                LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-       /* Call<ArrayList<Post>> call = postsServices.getPosts();
+       /*Call<ArrayList<Post>> call = postsServices.getPosts();
         call.enqueue(new Callback<ArrayList<Post>>() {
             @Override
             public void onResponse(Call<ArrayList<Post>> call, Response<ArrayList<Post>> response) {
@@ -69,7 +68,7 @@ public class FeedFragment extends Fragment {
         posts.add(new Post(3));
         posts.add(new Post(4));
         posts.add(new Post(5));
-        mAdapter = new PostAdapter(getActivity(),posts);
+        mAdapter = new PostAdapter(getContext(),posts);
         recyclerView.setAdapter(mAdapter);
 
 

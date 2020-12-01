@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.travelspot.travelspot"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -39,5 +39,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.github.iammert:ReadableBottomBar:0.2'
-
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.28.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.r4sh33d:SlidingUpMenu:0.0.2'
+//    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.5.0'
 }

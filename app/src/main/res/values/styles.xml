@@ -11,11 +11,14 @@
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
-    <style name="MainStyle" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="MainStyle" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/darkBlue</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="fontFamily">@font/montserrat</item>
+        <item name="android:textColor">#FFF</item>
+        <item name="drawableTint">#FFF</item>
+        <item name="sm_corner_radius">16dp</item>
     </style>
 </resources>

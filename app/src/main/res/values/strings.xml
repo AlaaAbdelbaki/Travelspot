@@ -12,5 +12,8 @@
     <string name="Disconnect">Disconnect</string>
     <string name="Like">Like</string>
     <string name="Comments">Comments</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris odio purus, cursus id tortor in, ultricies lobortis risus. Phasellus id arcu mauris. Cras id commodo dolor, sed lobortis nisi. Duis ac aliquam felis. Aenean hendrerit ornare arcu. Aliquam lacus ante, sollicitudin a congue at, feugiat eu massa. Etiam accumsan efficitur mi, vitae ullamcorper odio molestie sit amet. Cras porta massa eu imperdiet bibendum. Integer facilisis est sed turpis auctor tincidunt.</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiYWxhYWFiIiwiYSI6ImNraTNldHM4dTBlbXEycm5xanhobmVuOWYifQ.H2l3bdsLxFpWaKvTkHy3CQ</string>
+    <string name="changePP">Change profile picture</string>
 
 </resources>
