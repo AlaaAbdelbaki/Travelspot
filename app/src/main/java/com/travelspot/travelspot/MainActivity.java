@@ -13,14 +13,22 @@ import android.widget.Toast;
 
 import com.cloudinary.android.MediaManager;
 import com.iammert.library.readablebottombar.ReadableBottomBar;
+import com.travelspot.travelspot.Models.ServicesClient;
+import com.travelspot.travelspot.Models.User;
+import com.travelspot.travelspot.Models.UserServices;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
 
     ReadableBottomBar bottomBar;
-    Intent intent;
+    public static User userStat;
+    UserServices userServices = ServicesClient.getClient().create(UserServices.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +39,18 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Hello good sir", Toast.LENGTH_SHORT).show();
         getSupportFragmentManager().beginTransaction().replace(R.id.homeContainer,new HomeFragment()).commit();
         bottomBar = findViewById(R.id.bottomBar);
-        
+        Call<User> getUserDetails = userServices.getUser(getSharedPreferences("userStates", MODE_PRIVATE).getString("email",null));
+        getUserDetails.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                UserSession.getInstance(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
 
         bottomBar.setOnItemSelectListener(i -> {
             switch(i){
@@ -50,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 case 4:
                     Fragment profile = new ProfileFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putString("email",getSharedPreferences("userStates", MODE_PRIVATE).getString("email",null));
+                    bundle.putString("email",UserSession.instance.getU().getEmail());
                     profile.setArguments(bundle);
                     getSupportFragmentManager().beginTransaction().replace(R.id.homeContainer,profile).commit();
                     break;

@@ -19,6 +19,5 @@
         <item name="fontFamily">@font/montserrat</item>
         <item name="android:textColor">#FFF</item>
         <item name="drawableTint">#FFF</item>
-        <item name="sm_corner_radius">16dp</item>
     </style>
 </resources>
