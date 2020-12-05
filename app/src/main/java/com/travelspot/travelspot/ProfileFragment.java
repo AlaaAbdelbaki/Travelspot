@@ -44,6 +44,9 @@ public class ProfileFragment extends Fragment {
     MaterialButton followersCount;
     MaterialButton followingCount;
     CircleImageView profilePicture;
+    CircleImageView postProfilePic;
+    TextView postNameAndLastName;
+
     LinearLayout latestPost;
     User user;
 
@@ -130,6 +133,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 List<Post> posts = response.body();
+                //If User has no posts
                 if (posts.size() == 0) {
                     latestPost.removeAllViews();
                     TextView empty = new TextView(getContext());
@@ -142,6 +146,7 @@ public class ProfileFragment extends Fragment {
                     params.gravity = Gravity.CENTER;
                     empty.setLayoutParams(params);
                     latestPost.addView(empty);
+                    //If user has posts
                 }else{
                     
                 }
