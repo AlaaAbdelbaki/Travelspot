@@ -11,7 +11,6 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.cloudinary.android.MediaManager;
 import com.iammert.library.readablebottombar.ReadableBottomBar;
 import com.travelspot.travelspot.Models.ServicesClient;
 import com.travelspot.travelspot.Models.User;
@@ -35,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MediaManager.init(this);
         Toast.makeText(this, "Hello good sir", Toast.LENGTH_SHORT).show();
         getSupportFragmentManager().beginTransaction().replace(R.id.homeContainer,new HomeFragment()).commit();
         bottomBar = findViewById(R.id.bottomBar);

@@ -82,7 +82,8 @@ public class ProfileFragment extends Fragment {
             user = UserSession.instance.getU();
         }
         name.setText(user.getFirstName() + " " + user.getLastName() + " ");
-        Picasso.get().load("https://res.cloudinary.com/alaaab/image/upload/v1606730912/sample.jpg").into(profilePicture);
+        Picasso.get().load("http://192.168.1.12:3000/"+user.getProfilePicture()).into(profilePicture);
+        profilePicture.setRotation(90);
         //get visited countries
         Call<List<Country>> getCountries = userServices.getCountriesByUser(user.getId());
         getCountries.enqueue(new Callback<List<Country>>() {
