@@ -166,6 +166,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp">
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/postProfilePic"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:maxHeight="1px"
@@ -179,11 +180,12 @@
                     android:layout_gravity="center"
                     android:layout_margin="10dp">
                     <TextView
-                        android:id="@+id/nameAndLastName"
+                        android:id="@+id/postNameAndLastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="name and last name"/>
                     <TextView
+                        android:id="@+id/postInformation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Post information"/>
@@ -196,11 +198,13 @@
                 android:id="@+id/postContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
                 <TextView
+                    android:id="@+id/postContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="8"
+                    android:maxLines="5"
+                    android:ellipsize="end"
                     android:text="@string/lorem"/>
             </LinearLayout>
 

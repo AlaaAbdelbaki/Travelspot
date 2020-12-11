@@ -44,6 +44,9 @@ public class ProfileFragment extends Fragment {
     MaterialButton followersCount;
     MaterialButton followingCount;
     CircleImageView profilePicture;
+    CircleImageView postProfilePic;
+    TextView postNameAndLastName;
+
     LinearLayout latestPost;
     User user;
 
@@ -79,7 +82,8 @@ public class ProfileFragment extends Fragment {
             user = UserSession.instance.getU();
         }
         name.setText(user.getFirstName() + " " + user.getLastName() + " ");
-        Picasso.get().load("https://res.cloudinary.com/alaaab/image/upload/v1606730912/sample.jpg").into(profilePicture);
+        Picasso.get().load("http://192.168.1.12:3000/"+user.getProfilePicture()).into(profilePicture);
+        profilePicture.setRotation(90);
         //get visited countries
         Call<List<Country>> getCountries = userServices.getCountriesByUser(user.getId());
         getCountries.enqueue(new Callback<List<Country>>() {
@@ -130,6 +134,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 List<Post> posts = response.body();
+                //If User has no posts
                 if (posts.size() == 0) {
                     latestPost.removeAllViews();
                     TextView empty = new TextView(getContext());
@@ -142,6 +147,7 @@ public class ProfileFragment extends Fragment {
                     params.gravity = Gravity.CENTER;
                     empty.setLayoutParams(params);
                     latestPost.addView(empty);
+                    //If user has posts
                 }else{
                     
                 }
