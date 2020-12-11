@@ -15,5 +15,7 @@
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris odio purus, cursus id tortor in, ultricies lobortis risus. Phasellus id arcu mauris. Cras id commodo dolor, sed lobortis nisi. Duis ac aliquam felis. Aenean hendrerit ornare arcu. Aliquam lacus ante, sollicitudin a congue at, feugiat eu massa. Etiam accumsan efficitur mi, vitae ullamcorper odio molestie sit amet. Cras porta massa eu imperdiet bibendum. Integer facilisis est sed turpis auctor tincidunt.</string>
     <string name="mapbox_access_token">pk.eyJ1IjoiYWxhYWFiIiwiYSI6ImNraTNldHM4dTBlbXEycm5xanhobmVuOWYifQ.H2l3bdsLxFpWaKvTkHy3CQ</string>
     <string name="changePP">Change profile picture</string>
-
+    <string name="Host">http://192.168.43.18/</string>
+    <string name="user_location_permission_explanation">Allow Location Service For getting better results</string>
+    <string name="user_location_permission_not_granted">Permission Denied</string>
 </resources>

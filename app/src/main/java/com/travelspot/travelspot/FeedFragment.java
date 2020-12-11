@@ -38,9 +38,15 @@ public class FeedFragment extends Fragment {
         postsServices = ServicesClient.getClient().create(PostsServices.class);
 
         View v =inflater.inflate(R.layout.fragment_feed, container, false);
+        v.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Log.d("FOCUS", v.getContext().getPackageName());
+            }
+        });
         recyclerView = v.findViewById(R.id.feed);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setNestedScrollingEnabled(true);
+        recyclerView.setNestedScrollingEnabled(false);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -64,8 +70,7 @@ public class FeedFragment extends Fragment {
                     mAdapter = new PostAdapter(getContext(),posts);
                     recyclerView.setAdapter(mAdapter);
 
-                    //postsInterface.loadPosts(list);
-                    Log.d("POSTS1", posts.get(0).getBody());
+
 
                 }else{
                     Log.d("Failure","Res is empty");

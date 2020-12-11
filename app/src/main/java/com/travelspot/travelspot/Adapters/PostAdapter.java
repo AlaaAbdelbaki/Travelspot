@@ -1,6 +1,8 @@
 package com.travelspot.travelspot.Adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,17 +11,25 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.JsonObject;
 import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 import com.travelspot.travelspot.Models.Post;
 import com.travelspot.travelspot.Models.PostsCallBack;
 import com.travelspot.travelspot.Models.PostsServices;
 import com.travelspot.travelspot.Models.ServicesClient;
+import com.travelspot.travelspot.Models.User;
 import com.travelspot.travelspot.R;
+import com.travelspot.travelspot.UserSession;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -33,6 +43,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.FeedHolder> {
     private Context mContext;
     PostsServices postsServices;
     PostsCallBack postsCallBack;
+    User u = UserSession.instance.getU();
 
     public PostAdapter(Context mContext,ArrayList<Post> posts)
     {
@@ -52,18 +63,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.FeedHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.FeedHolder holder, int position) {
-        Log.d("Recycler", "render Item");
         final Post singleItem = posts.get(position);
-        holder.Title.setText("TEST");
-        holder.Location.setText("Tunisia");
+
+        holder.Title.setText(u.getFirstName()+" added a new post");
+        holder.Location.setText(singleItem.getPosition());
+        //holder.Body.setMovementMethod(new ScrollingMovementMethod());
         holder.Body.setText(singleItem.getBody());
+        Log.d("Profile",u.getProfilePicture());
+
         Picasso.get()
-                .load("http://192.168.1.3/Ressources/profile.png")
+                .load("http://192.168.1.3/Ressources/"+u.getProfilePicture())
                 .resize(50, 50)
                 .centerCrop()
                 .into(holder.profilePicture);
 
         loadPostMedia(postsCallBack,singleItem,holder);
+        try {
+            setLikePost(singleItem,holder);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
     }
         public void loadPostMedia(final PostsCallBack postsCallBack,Post singleItem,FeedHolder holder)
@@ -96,6 +116,60 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.FeedHolder> {
             public void onFailure(Call<ArrayList<String>> call, Throwable t) {
 
                 postsCallBack.onError();
+            }
+        });
+    }
+
+    public void setLikePost(Post singleItem,FeedHolder holder) throws JSONException {
+        JsonObject params = new JsonObject();
+        params.addProperty("postid",singleItem.getId());
+        params.addProperty("userid",u.getId());
+
+        holder.like.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                Call<Boolean> call = postsServices.likePost(params);
+                call.enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        Boolean res = response.body();
+                        if(res)
+                        {
+                            Toast.makeText(mContext,"Liked", Toast.LENGTH_SHORT).show();
+                        }else
+                        {
+                            Toast.makeText(mContext,"Allready Liked", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                Call<Boolean> call = postsServices.unlikePost(params);
+                call.enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        Boolean res = response.body();
+                        if(res)
+                        {
+                            Toast.makeText(mContext,"Unliked", Toast.LENGTH_SHORT).show();
+                        }else
+                        {
+                            Toast.makeText(mContext,"Liked", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+
+                    }
+                });
             }
         });
     }

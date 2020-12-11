@@ -1,7 +1,10 @@
 package com.travelspot.travelspot.Models;
 
 
+import com.google.gson.JsonObject;
+
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,4 +34,12 @@ public interface PostsServices {
 
     @GET("services/getPostLikes")
     Call<Integer> getPostLikes(@Query(value = "post",encoded = true) int postid);
+
+    @Headers("Content-Type: application/json")
+    @POST("services/likePost")
+    Call<Boolean> likePost(@Body JsonObject parms);
+
+    @Headers("Content-Type: application/json")
+    @POST("services/unlikePost")
+    Call<Boolean> unlikePost(@Body JsonObject parms);
 }

@@ -28,9 +28,13 @@ public class Post {
     @SerializedName("UserId")
     @Expose
     private int userId;
+    @SerializedName("position")
+    @Expose
+    private String position;
 
 
-    public Post(int id, String body, String medias, Date createdAt, Date updatedAt, int tripId, int userId) {
+
+    public Post(int id, String body, String medias, Date createdAt, Date updatedAt, int tripId, int userId, String position) {
         this.id = id;
         this.body = body;
         this.medias = medias;
@@ -38,6 +42,7 @@ public class Post {
         this.updatedAt = updatedAt;
         this.tripId = tripId;
         this.userId = userId;
+        this.position = position;
     }
 
     public Post(int id)
@@ -100,6 +105,11 @@ public class Post {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+
+    public String getPosition() { return position; }
+
+    public void setPosition(String position) { this.position = position; }
 
     @Override
     public String toString() {

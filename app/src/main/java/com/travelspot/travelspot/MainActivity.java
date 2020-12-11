@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Hello good sir", Toast.LENGTH_SHORT).show();
         getSupportFragmentManager().beginTransaction().replace(R.id.homeContainer,new HomeFragment()).commit();
         bottomBar = findViewById(R.id.bottomBar);
+
         Call<User> getUserDetails = userServices.getUser(getSharedPreferences("userStates", MODE_PRIVATE).getString("email",null));
         getUserDetails.enqueue(new Callback<User>() {
             @Override
