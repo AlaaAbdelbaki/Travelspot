@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -80,11 +81,23 @@ public class MapActivity extends AppCompatActivity implements PermissionsListene
                                 //.bearing(180) // Rotate the camera
                                 .tilt(30) // Set the camera tilt
                                 .build(); // Creates a CameraPosition from the builder
-
                         mapBoxMap.animateCamera(CameraUpdateFactory
                                 .newCameraPosition(position), 8000);
+                        mapBoxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
+                            @Override
+                            public boolean onMapClick(@NonNull LatLng point) {
+                                Log.e("onMapClick: ", String.valueOf(point.getLatitude())+" "+String.valueOf(point.getLongitude()));
+                                Intent returnIntent = new Intent();
+                                returnIntent.putExtra("long",point.getLongitude());
+                                returnIntent.putExtra("lat",point.getLatitude());
+                                setResult(Activity.RESULT_OK,returnIntent);
+                                finish();
+                                return false;
+                            }
+                        });
 
                     }
+
                 });
             }
         });
@@ -246,4 +259,5 @@ public class MapActivity extends AppCompatActivity implements PermissionsListene
         super.onDestroy();
         mapView.onDestroy();
     }
+
 }

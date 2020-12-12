@@ -34,6 +34,9 @@ public interface UserServices {
     @GET("services/getUser")
     Call<User> getUser(@Query(value = "email",encoded = true) String email);
 
+    @GET("services/getuserbyid")
+    Call<User> getUser(@Query(value = "id",encoded = true) int id);
+
     @GET("services/getCountries")
     Call<List<Country>> getCountriesByUser(@Query(value = "id",encoded = true)int userId);
 
@@ -48,6 +51,8 @@ public interface UserServices {
     @Multipart
     @POST("services/uploadProfilePic")
     Call<Boolean> uploadProfilePic(@Part("id") RequestBody id,@Part MultipartBody.Part file);
+
+
 
 
 }

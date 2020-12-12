@@ -49,6 +49,7 @@ public class ProfileFragment extends Fragment {
 
     LinearLayout latestPost;
     User user;
+    User postUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -149,7 +150,22 @@ public class ProfileFragment extends Fragment {
                     latestPost.addView(empty);
                     //If user has posts
                 }else{
-                    
+                    Post post = posts.get(0);
+
+                    userServices.getUser(user.getId()).enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                           postUser = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+
+                        }
+                    });
+
+                    TextView postNameAndLastName = v.findViewById(R.id.postNameAndLastName);
+                    postNameAndLastName.setText(postUser.getFirstName()+" "+postUser.getLastName());
                 }
             }
 
