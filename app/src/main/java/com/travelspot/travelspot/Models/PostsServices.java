@@ -42,4 +42,12 @@ public interface PostsServices {
     @Headers("Content-Type: application/json")
     @POST("services/unlikePost")
     Call<Boolean> unlikePost(@Body JsonObject parms);
+
+    @Headers("Content-Type: application/json")
+    @POST("services/getPostUser")
+    Call<User> getPostUser(@Body JsonObject parms);
+
+    @Headers("Content-Type: application/json")
+    @POST("services/getPostComments")
+    Call<ArrayList<Comment>> getPostComments(@Body JsonObject params);
 }

@@ -2,6 +2,7 @@ package com.travelspot.travelspot.Adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,10 @@ import com.google.gson.JsonObject;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
+import com.travelspot.travelspot.BottomSheetDialog;
+import com.travelspot.travelspot.CommentSheet;
+import com.travelspot.travelspot.FeedFragment;
+import com.travelspot.travelspot.MainActivity;
 import com.travelspot.travelspot.Models.Post;
 import com.travelspot.travelspot.Models.PostsCallBack;
 import com.travelspot.travelspot.Models.PostsServices;
@@ -27,6 +32,7 @@ import com.travelspot.travelspot.Models.ServicesClient;
 import com.travelspot.travelspot.Models.User;
 import com.travelspot.travelspot.R;
 import com.travelspot.travelspot.UserSession;
+import com.travelspot.travelspot.commentsFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +56,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.FeedHolder> {
         this.mContext=mContext;
         this.posts = posts;
         this.postsServices = ServicesClient.getClient().create(PostsServices.class);
-
     }
 
 
@@ -58,6 +63,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.FeedHolder> {
     @Override
     public PostAdapter.FeedHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View item = LayoutInflater.from(mContext).inflate(R.layout.fragment_feed_item,parent,false);
+
         return new FeedHolder(item,this);
     }
 
@@ -65,26 +71,62 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.FeedHolder> {
     public void onBindViewHolder(@NonNull PostAdapter.FeedHolder holder, int position) {
         final Post singleItem = posts.get(position);
 
-        holder.Title.setText(u.getFirstName()+" added a new post");
+        getTitle(singleItem.getUserId(),singleItem.getId(),holder);
+
         holder.Location.setText(singleItem.getPosition());
-        //holder.Body.setMovementMethod(new ScrollingMovementMethod());
         holder.Body.setText(singleItem.getBody());
-        Log.d("Profile",u.getProfilePicture());
+        holder.Body.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommentSheet commentSheet = new CommentSheet();
+                Bundle bundle = new Bundle();
+                String myMessage = (String) holder.Body.getText();
+                bundle.putString("Post", myMessage );
+                commentSheet.setArguments(bundle);
+                commentSheet.show(((MainActivity)mContext).getSupportFragmentManager(),"full_comment_dialog");
+            }
+        });
 
-        Picasso.get()
-                .load("http://192.168.1.3/Ressources/"+u.getProfilePicture())
-                .resize(50, 50)
-                .centerCrop()
-                .into(holder.profilePicture);
-
+        holder.comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.homeContainer,new commentsFragment(singleItem.getId())).addToBackStack("back_to_posts").commit();
+            }
+        });
         loadPostMedia(postsCallBack,singleItem,holder);
         try {
             setLikePost(singleItem,holder);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
+    public void getTitle(int userid,int postid,FeedHolder holder)
+    {
 
+        JsonObject params = new JsonObject();
+        params.addProperty("userid",userid);
+        params.addProperty("postid",postid);
+
+        Call<User> call = postsServices.getPostUser(params);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user = response.body();
+                assert user != null;
+                holder.Title.setText(String.format("%s added a new post", user.getFirstName()));
+                Picasso.get()
+                        .load("http://192.168.1.5/Ressources/"+user.getProfilePicture())
+                        .resize(50, 50)
+                        .centerCrop()
+                        .into(holder.profilePicture);
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
     }
         public void loadPostMedia(final PostsCallBack postsCallBack,Post singleItem,FeedHolder holder)
     {
@@ -103,7 +145,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.FeedHolder> {
                     for (String item:media) {
                         ImageView i = new ImageView(holder.picturesContainerLayout.getContext());
                         Picasso.get()
-                                .load("http://192.168.1.3/Ressources/"+item)
+                                .load("http://192.168.1.5/Ressources/"+item)
                                 .into(i);
                         holder.picturesContainerLayout.addView(i);                    }
 

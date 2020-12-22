@@ -38,12 +38,7 @@ public class FeedFragment extends Fragment {
         postsServices = ServicesClient.getClient().create(PostsServices.class);
 
         View v =inflater.inflate(R.layout.fragment_feed, container, false);
-        v.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Log.d("FOCUS", v.getContext().getPackageName());
-            }
-        });
+
         recyclerView = v.findViewById(R.id.feed);
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);

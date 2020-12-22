@@ -83,8 +83,11 @@ public class ProfileFragment extends Fragment {
             user = UserSession.instance.getU();
         }
         name.setText(user.getFirstName() + " " + user.getLastName() + " ");
-        Picasso.get().load("http://192.168.1.12:3000/"+user.getProfilePicture()).into(profilePicture);
-        profilePicture.setRotation(90);
+        Picasso.get().load("http://192.168.1.5/Ressources/"+user.getProfilePicture())
+                .resize(50, 50)
+                .centerCrop()
+                .into(profilePicture);
+        //profilePicture.setRotation(90);
         //get visited countries
         Call<List<Country>> getCountries = userServices.getCountriesByUser(user.getId());
         getCountries.enqueue(new Callback<List<Country>>() {
@@ -193,7 +196,6 @@ public class ProfileFragment extends Fragment {
                     BottomSheetDialog bottomSheetDialog = BottomSheetDialog.newInstance();
                     bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "add_photo_dialog_fragment");
                 }
-
             }
         });
 

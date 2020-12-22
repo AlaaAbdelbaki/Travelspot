@@ -109,20 +109,19 @@ public class LoginFragment extends Fragment {
                     if(!user)
                     {
                         Toast.makeText(getContext(),"Email or Password incorrect", Toast.LENGTH_SHORT).show();
-                        Log.d("Response", "Incorrect");
+
                         return;
                     }
 
                     if(user)
                     {
-                        Log.d("Response", "correct");
+
                         userStatesEdit.putString("email",emailInput.getText().toString());
                         if(rememberMe.isChecked())
                         {
                             userStatesEdit.putBoolean("Remembered",true);
                             userStatesEdit.apply();
                         }
-                        Toast.makeText(getContext(),"User Exist and password correct", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         startActivity(intent);
                     }

@@ -3,6 +3,8 @@ package com.travelspot.travelspot.Models;
 import android.graphics.Bitmap;
 import android.util.JsonReader;
 
+import com.google.gson.JsonObject;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONStringer;
@@ -36,6 +38,11 @@ public interface UserServices {
 
     @GET("services/getuserbyid")
     Call<User> getUser(@Query(value = "id",encoded = true) int id);
+
+    @Headers("Content-Type: application/json")
+    @POST("services/getUserP")
+    Call<User> getUserP(@Body JsonObject params);
+
 
     @GET("services/getCountries")
     Call<List<Country>> getCountriesByUser(@Query(value = "id",encoded = true)int userId);
