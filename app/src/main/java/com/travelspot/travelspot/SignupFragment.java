@@ -86,8 +86,28 @@ public class SignupFragment extends Fragment {
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                User user = new User();
+                user.setEmail(emailInput.getText().toString());
+                user.setFirstName(nameInput.getText().toString());
+                user.setLastName(lastNameInput.getText().toString());
+                userServices.signup(user).enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        if(response.body()){
+                            Toast.makeText(getContext(), "Account created ! please login", Toast.LENGTH_SHORT).show();
+                            getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
+                                    R.anim.fade_out).replace(R.id.fragment_container,new LoginFragment()).commit();
+                        }else {
+                            Toast.makeText(getContext(), "Error !", Toast.LENGTH_SHORT).show();
 
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+
+                    }
+                });
             }
         });
 

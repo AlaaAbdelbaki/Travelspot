@@ -32,6 +32,11 @@ public interface UserServices {
     @POST("services/checkLogin")
     Call<Boolean> checkLogin(@Body User user);
 
+    @GET("services/getUsers")
+    Call<List<User>> getUsers();
+
+    @POST("/services/signup")
+    Call<Boolean> signup(@Body User user);
 
     @GET("services/getUser")
     Call<User> getUser(@Query(value = "email",encoded = true) String email);

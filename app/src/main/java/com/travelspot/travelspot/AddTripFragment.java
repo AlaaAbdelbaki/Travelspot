@@ -56,6 +56,8 @@ public class AddTripFragment extends Fragment {
     TextInputEditText tripDurationInput;
     TextInputLayout destination;
     MaterialButton addTrip;
+    
+
 
     DateFormat formatter = new SimpleDateFormat("yyy-MM-dd");
 
@@ -73,11 +75,6 @@ public class AddTripFragment extends Fragment {
         destination = v.findViewById(R.id.destination);
         destinationInput  = v.findViewById(R.id.destinationInput);
         addTrip = v.findViewById(R.id.addTrip);
-
-
-
-
-
 
 
         //Setting up the date Picker
@@ -152,14 +149,22 @@ public class AddTripFragment extends Fragment {
                         @Override
                         public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                             Toast.makeText(getContext(), "Trip Added successfully !", Toast.LENGTH_SHORT).show();
+
                             tripTitleInput.setText("");
-                            tripDurationInput.setText("Trip duration");
+                            tripDurationInput.setText("");
                             destinationInput.setText("");
+
                         }
 
                         @Override
                         public void onFailure(Call<Boolean> call, Throwable t) {
                             //Toast.makeText(getContext(), "Error adding your trip !", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Can't connect to server !", Toast.LENGTH_SHORT).show();
+
+                            tripTitleInput.setText("");
+                            tripDurationInput.setText("");
+                            destinationInput.setText("");
+
                         }
                     });
                 }
@@ -208,7 +213,7 @@ public class AddTripFragment extends Fragment {
 
                             // Get the first Feature from the successful geocoding response
                             CarmenFeature feature = results.get(0);
-                            //Log.e( "onResponse: ",feature.placeName() );
+                            Log.e( "onResponse: ",feature.placeName() );
                             destinationInput.setText(feature.placeName());
                         } else {
                             Toast.makeText(getContext(), "Error getting Country",

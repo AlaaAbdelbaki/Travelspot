@@ -9,7 +9,7 @@
     <FrameLayout
         android:id="@+id/homeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomBar"
         app:layout_constraintEnd_toEndOf="@+id/bottomBar"
         app:layout_constraintHorizontal_bias="0.0"

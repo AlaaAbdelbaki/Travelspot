@@ -19,6 +19,9 @@ import retrofit2.http.Query;
 
 public interface PostsServices {
 
+    @POST("services/addpost")
+    Call<Boolean> addPost(@Body Post post);
+
     @GET("services/getPosts")
     Call<ArrayList<Post>> getPosts();
 
@@ -50,4 +53,7 @@ public interface PostsServices {
     @Headers("Content-Type: application/json")
     @POST("services/getPostComments")
     Call<ArrayList<Comment>> getPostComments(@Body JsonObject params);
+
+    @POST("/services/addcomment")
+    Call<Boolean> addComment(@Body Comment comment);
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonObject;
@@ -117,9 +118,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.FeedHolder> {
                 assert user != null;
                 holder.Title.setText(String.format("%s added a new post", user.getFirstName()));
                 Picasso.get()
-                        .load("http://192.168.1.5/Ressources/"+user.getProfilePicture())
+                        .load("http://192.168.1.17:3000/"+user.getProfilePicture())
                         .resize(50, 50)
                         .centerCrop()
+                        .rotate(90)
                         .into(holder.profilePicture);
             }
             @Override
@@ -143,9 +145,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.FeedHolder> {
                     media=res;
 
                     for (String item:media) {
+                        //Log.e("pictureName: ", item);
                         ImageView i = new ImageView(holder.picturesContainerLayout.getContext());
                         Picasso.get()
-                                .load("http://192.168.1.5/Ressources/"+item)
+                                .load("http://192.168.1.17:3000/"+item)
+                                .rotate(90)
                                 .into(i);
                         holder.picturesContainerLayout.addView(i);                    }
 

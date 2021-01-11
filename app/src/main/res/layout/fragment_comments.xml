@@ -7,9 +7,45 @@
     android:layout_margin="30dp"
     tools:context=".commentsFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/Comments"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:spanCount="5" />
+        android:orientation="vertical">
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="2">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/commentInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Add Comment" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.button.MaterialButton
+                android:layout_marginLeft="10dp"
+                android:id="@+id/addCommentBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="12dp"
+                android:textColor="#FFF"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Add comment"/>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Comments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:spanCount="5" />
+    </LinearLayout>
+
+
 </com.google.android.material.card.MaterialCardView>

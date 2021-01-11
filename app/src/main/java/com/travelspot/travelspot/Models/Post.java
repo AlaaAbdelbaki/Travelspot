@@ -13,9 +13,9 @@ public class Post {
     @SerializedName("body")
     @Expose
     private String body;
-    @SerializedName("medias")
+    @SerializedName("position")
     @Expose
-    private String medias;
+    private String position;
     @SerializedName("createdAt")
     @Expose
     private Date createdAt;
@@ -28,21 +28,20 @@ public class Post {
     @SerializedName("UserId")
     @Expose
     private int userId;
-    @SerializedName("position")
-    @Expose
-    private String position;
 
 
+    public Post(){
 
-    public Post(int id, String body, String medias, Date createdAt, Date updatedAt, int tripId, int userId, String position) {
+    }
+
+    public Post(int id, String body, String position, Date createdAt, Date updatedAt, int tripId, int userId) {
         this.id = id;
         this.body = body;
-        this.medias = medias;
+        this.position = position;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.tripId = tripId;
         this.userId = userId;
-        this.position = position;
     }
 
     public Post(int id)
@@ -66,13 +65,11 @@ public class Post {
         this.body = body;
     }
 
-    public String getMedias() {
-        return medias;
+    public String getPosition() {
+        return position;
     }
 
-    public void setMedias(String medias) {
-        this.medias = medias;
-    }
+    public void setPosition(String position) { this.position = position; }
 
     public Date getCreatedAt() {
         return createdAt;
@@ -105,18 +102,12 @@ public class Post {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
-
-    public String getPosition() { return position; }
-
-    public void setPosition(String position) { this.position = position; }
-
     @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
                 ", body='" + body + '\'' +
-                ", medias='" + medias + '\'' +
+                ", position='" + position + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", tripId=" + tripId +

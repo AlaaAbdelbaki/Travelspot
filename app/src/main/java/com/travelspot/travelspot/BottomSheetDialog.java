@@ -1,6 +1,7 @@
 package com.travelspot.travelspot;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
@@ -127,7 +128,13 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         // Match the request 'pic id with requestCode
+        ProgressDialog progress = new ProgressDialog(getActivity());
+        progress.setTitle("Loading");
+        progress.setMessage("Uploading in progress...");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+        progress.show();
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 File image = new File(getPath(imageUri));
                 RequestBody requestFile =
@@ -137,22 +144,27 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                         );
                 MultipartBody.Part body =
                         MultipartBody.Part.createFormData("profilePicture", image.getName(), requestFile);
+                Log.e("onActivityResult: ", image.getName());
 
                 RequestBody userId =
                         RequestBody.create(
                                 okhttp3.MultipartBody.FORM, String.valueOf(user.getId()));
 
 
+
                 userServices.uploadProfilePic(userId,body).enqueue(new Callback<Boolean>() {
                     @Override
                     public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                         Toast.makeText(getContext(), "Uploaded", Toast.LENGTH_SHORT).show();
+                        progress.dismiss();
                     }
 
                     @Override
                     public void onFailure(Call<Boolean> call, Throwable t) {
                         Log.e( "onFailure: ",t.getMessage() );
                         Toast.makeText(getContext(), "Not Uploaded", Toast.LENGTH_SHORT).show();
+                        progress.dismiss();
+
 
                     }
                 });

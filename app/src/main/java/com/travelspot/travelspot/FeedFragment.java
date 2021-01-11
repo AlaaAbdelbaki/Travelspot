@@ -18,6 +18,7 @@ import com.travelspot.travelspot.Models.PostsServices;
 import com.travelspot.travelspot.Models.ServicesClient;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,10 +63,9 @@ public class FeedFragment extends Fragment {
                 {
                     ArrayList<Post> posts;
                     posts=res;
+                    Collections.reverse(posts);
                     mAdapter = new PostAdapter(getContext(),posts);
                     recyclerView.setAdapter(mAdapter);
-
-
 
                 }else{
                     Log.d("Failure","Res is empty");

@@ -7,11 +7,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.blongho.country_data.World;
 import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 import com.travelspot.travelspot.Models.Country;
@@ -46,6 +48,10 @@ public class ProfileFragment extends Fragment {
     CircleImageView profilePicture;
     CircleImageView postProfilePic;
     TextView postNameAndLastName;
+    ImageView country1;
+    ImageView country2;
+    ImageView country3;
+    ImageView country4;
 
     LinearLayout latestPost;
     User user;
@@ -65,6 +71,10 @@ public class ProfileFragment extends Fragment {
         followingCount = v.findViewById(R.id.followingCount);
         profilePicture = v.findViewById(R.id.profilePic);
         latestPost = v.findViewById(R.id.latestPost);
+        country1 = v.findViewById(R.id.country1);
+        country2 = v.findViewById(R.id.country2);
+        country3 = v.findViewById(R.id.country3);
+        country4 = v.findViewById(R.id.country4);
 
         //get user details
         if (!UserSession.instance.getU().getEmail().equals(getArguments().getString("email"))) {
@@ -72,6 +82,113 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     user = response.body();
+                    name.setText(user.getFirstName() + " " + user.getLastName() + " ");
+                    if(user.getProfilePicture()==null){
+                        Picasso.get().load("http://192.168.1.12:3000/uploads/dafault.jpg").into(profilePicture);
+                    }else{
+                        Picasso.get().load("http://192.168.1.12:3000/"+user.getProfilePicture()).into(profilePicture);
+                        profilePicture.setRotation(90);
+                    }
+
+                    Call<List<Country>> getCountries = userServices.getCountriesByUser(user.getId());
+                    getCountries.enqueue(new Callback<List<Country>>() {
+                        @Override
+                        public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
+                            List<Country> countries = response.body();
+                            Log.e("count", String.valueOf(countries.size()));
+                            countriesCount.setText(countries.size() + " countries visited !");
+                            World.init(getContext());
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Country>> call, Throwable t) {
+
+                        }
+                    });
+                    //get followers
+                    Call<List<Follower>> getFollowers = userServices.getFollowers(user.getId());
+                    getFollowers.enqueue(new Callback<List<Follower>>() {
+                        @Override
+                        public void onResponse(Call<List<Follower>> call, Response<List<Follower>> response) {
+                            List<Follower> followers = response.body();
+                            followersCount.setText("Followers\n" + followers.size());
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Follower>> call, Throwable t) {
+
+                        }
+                    });
+                    //get user's followings
+                    Call<List<Follower>> getFollowing = userServices.getFollowings(user.getId());
+                    getFollowing.enqueue(new Callback<List<Follower>>() {
+                        @Override
+                        public void onResponse(Call<List<Follower>> call, Response<List<Follower>> response) {
+                            List<Follower> followings = response.body();
+                            followingCount.setText("Following\n" + followings.size());
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Follower>> call, Throwable t) {
+
+                        }
+                    });
+                    //get user's posts
+                    Call<List<Post>> getPosts = postsServices.getPostsByUser(user.getId());
+                    getPosts.enqueue(new Callback<List<Post>>() {
+                        @Override
+                        public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                            List<Post> posts = response.body();
+                            //If User has no posts
+                            if (posts.size() == 0) {
+                                latestPost.removeAllViews();
+                                TextView empty = new TextView(getContext());
+                                empty.setText("This user has no posts");
+                                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.MATCH_PARENT
+                                );
+                                params.setMargins(20, 20, 20, 20);
+                                params.gravity = Gravity.CENTER;
+                                empty.setLayoutParams(params);
+                                latestPost.addView(empty);
+                                //If user has posts
+                            }else{
+                                Post post = posts.get(0);
+
+                                userServices.getUser(user.getId()).enqueue(new Callback<User>() {
+                                    @Override
+                                    public void onResponse(Call<User> call, Response<User> response) {
+                                        postUser = response.body();
+                                        TextView postNameAndLastName = v.findViewById(R.id.postNameAndLastName);
+                                        postNameAndLastName.setText(postUser.getFirstName()+" "+postUser.getLastName());
+                                        CircleImageView postProfilePic = v.findViewById(R.id.postProfilePic);
+                                        postProfilePic.setRotation(90);
+                                        Picasso.get().load("http://192.168.1.12:3000/"+user.getProfilePicture()).into(postProfilePic);
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<User> call, Throwable t) {
+
+                                    }
+                                });
+                                TextView postInformation = v.findViewById(R.id.postInformation);
+                                postInformation.setText(post.getPosition());
+                                TextView postContent = v.findViewById(R.id.postContent);
+                                postContent.setText(post.getBody());
+
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Post>> call, Throwable t) {
+
+                        }
+                    });
                 }
 
                 @Override
@@ -81,123 +198,139 @@ public class ProfileFragment extends Fragment {
             });
         } else {
             user = UserSession.instance.getU();
+            name.setText(user.getFirstName() + " " + user.getLastName() + " ");
+            if(user.getProfilePicture()==null){
+                Picasso.get().load("http://192.168.1.12:3000/uploads/dafault.jpg").into(profilePicture);
+            }else{
+                Picasso.get().load("http://192.168.1.12:3000/"+user.getProfilePicture()).into(profilePicture);
+                profilePicture.setRotation(90);
+            }
+            //get visited countries
+            Call<List<Country>> getCountries = userServices.getCountriesByUser(user.getId());
+            getCountries.enqueue(new Callback<List<Country>>() {
+                @Override
+                public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
+                    List<Country> countries = response.body();
+                    Log.e("count", String.valueOf(countries.size()));
+                    countriesCount.setText(countries.size() + " countries visited !");
+                    country1.setImageResource(World.getFlagOf(countries.get(0).getName()));
+                    country2.setImageResource(World.getFlagOf(countries.get(1).getName()));
+                    country3.setImageResource(World.getFlagOf(countries.get(2).getName()));
+                }
+
+                @Override
+                public void onFailure(Call<List<Country>> call, Throwable t) {
+
+                }
+            });
+            //get followers
+            Call<List<Follower>> getFollowers = userServices.getFollowers(user.getId());
+            getFollowers.enqueue(new Callback<List<Follower>>() {
+                @Override
+                public void onResponse(Call<List<Follower>> call, Response<List<Follower>> response) {
+                    List<Follower> followers = response.body();
+                    followersCount.setText("Followers\n" + followers.size());
+
+                }
+
+                @Override
+                public void onFailure(Call<List<Follower>> call, Throwable t) {
+
+                }
+            });
+            //get user's followings
+            Call<List<Follower>> getFollowing = userServices.getFollowings(user.getId());
+            getFollowing.enqueue(new Callback<List<Follower>>() {
+                @Override
+                public void onResponse(Call<List<Follower>> call, Response<List<Follower>> response) {
+                    List<Follower> followings = response.body();
+                    followingCount.setText("Following\n" + followings.size());
+                }
+
+                @Override
+                public void onFailure(Call<List<Follower>> call, Throwable t) {
+
+                }
+            });
+            //get user's posts
+            Call<List<Post>> getPosts = postsServices.getPostsByUser(user.getId());
+            getPosts.enqueue(new Callback<List<Post>>() {
+                @Override
+                public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                    List<Post> posts = response.body();
+                    //If User has no posts
+                    if (posts.size() == 0) {
+                        latestPost.removeAllViews();
+                        TextView empty = new TextView(getContext());
+                        empty.setText("This user has no posts");
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.MATCH_PARENT
+                        );
+                        params.setMargins(20, 20, 20, 20);
+                        params.gravity = Gravity.CENTER;
+                        empty.setLayoutParams(params);
+                        latestPost.addView(empty);
+                        //If user has posts
+                    }else{
+                        Post post = posts.get(0);
+
+                        userServices.getUser(user.getId()).enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                postUser = response.body();
+                                TextView postNameAndLastName = v.findViewById(R.id.postNameAndLastName);
+                                postNameAndLastName.setText(postUser.getFirstName()+" "+postUser.getLastName());
+                                CircleImageView postProfilePic = v.findViewById(R.id.postProfilePic);
+                                postProfilePic.setRotation(90);
+                                Picasso.get().load("http://192.168.1.12:3000/"+user.getProfilePicture()).into(postProfilePic);
+                            }
+
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+
+                            }
+                        });
+                        TextView postInformation = v.findViewById(R.id.postInformation);
+                        postInformation.setText(post.getPosition());
+                        TextView postContent = v.findViewById(R.id.postContent);
+                        postContent.setText(post.getBody());
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Post>> call, Throwable t) {
+
+                }
+            });
+            name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (UserSession.instance.getU().getEmail().equals(getArguments().getString("email"))) {
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.homeContainer, new EditProfileFragment()).addToBackStack("prev").commit();
+                    }
+                }
+            });
+
+            profilePicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (UserSession.instance.getU().getEmail().equals(getArguments().getString("email"))) {
+                        BottomSheetDialog bottomSheetDialog = BottomSheetDialog.newInstance();
+                        bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "add_photo_dialog_fragment");
+                    }
+
+                }
+            });
         }
-        name.setText(user.getFirstName() + " " + user.getLastName() + " ");
-        Picasso.get().load("http://192.168.1.5/Ressources/"+user.getProfilePicture())
-                .resize(50, 50)
-                .centerCrop()
-                .into(profilePicture);
-        //profilePicture.setRotation(90);
-        //get visited countries
-        Call<List<Country>> getCountries = userServices.getCountriesByUser(user.getId());
-        getCountries.enqueue(new Callback<List<Country>>() {
-            @Override
-            public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
-                List<Country> countries = response.body();
-                Log.e("count", String.valueOf(countries.size()));
-                countriesCount.setText(countries.size() + " countries visited !");
-            }
-
-            @Override
-            public void onFailure(Call<List<Country>> call, Throwable t) {
-
-            }
-        });
-        //get followers
-        Call<List<Follower>> getFollowers = userServices.getFollowers(user.getId());
-        getFollowers.enqueue(new Callback<List<Follower>>() {
-            @Override
-            public void onResponse(Call<List<Follower>> call, Response<List<Follower>> response) {
-                List<Follower> followers = response.body();
-                followersCount.setText("Followers\n" + followers.size());
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Follower>> call, Throwable t) {
-
-            }
-        });
-        //get user's followings
-        Call<List<Follower>> getFollowing = userServices.getFollowings(user.getId());
-        getFollowing.enqueue(new Callback<List<Follower>>() {
-            @Override
-            public void onResponse(Call<List<Follower>> call, Response<List<Follower>> response) {
-                List<Follower> followings = response.body();
-                followingCount.setText("Following\n" + followings.size());
-            }
-
-            @Override
-            public void onFailure(Call<List<Follower>> call, Throwable t) {
-
-            }
-        });
-        //get user's posts
-        Call<List<Post>> getPosts = postsServices.getPostsByUser(user.getId());
-        getPosts.enqueue(new Callback<List<Post>>() {
-            @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                List<Post> posts = response.body();
-                //If User has no posts
-                if (posts.size() == 0) {
-                    latestPost.removeAllViews();
-                    TextView empty = new TextView(getContext());
-                    empty.setText("This user has no posts");
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.MATCH_PARENT
-                    );
-                    params.setMargins(20, 20, 20, 20);
-                    params.gravity = Gravity.CENTER;
-                    empty.setLayoutParams(params);
-                    latestPost.addView(empty);
-                    //If user has posts
-                }else{
-                    Post post = posts.get(0);
-
-                    userServices.getUser(user.getId()).enqueue(new Callback<User>() {
-                        @Override
-                        public void onResponse(Call<User> call, Response<User> response) {
-                           postUser = response.body();
-                        }
-
-                        @Override
-                        public void onFailure(Call<User> call, Throwable t) {
-
-                        }
-                    });
-
-                    TextView postNameAndLastName = v.findViewById(R.id.postNameAndLastName);
-                    postNameAndLastName.setText(postUser.getFirstName()+" "+postUser.getLastName());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
-
-            }
-        });
 
 
-        name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (UserSession.instance.getU().getEmail().equals(getArguments().getString("email"))) {
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.homeContainer, new EditProfileFragment()).addToBackStack("prev").commit();
-                }
-            }
-        });
 
-        profilePicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                if (UserSession.instance.getU().getEmail().equals(getArguments().getString("email"))) {
-                    BottomSheetDialog bottomSheetDialog = BottomSheetDialog.newInstance();
-                    bottomSheetDialog.show(getActivity().getSupportFragmentManager(), "add_photo_dialog_fragment");
-                }
-            }
-        });
+
 
 
 //        disconnect.setOnClickListener(new View.OnClickListener() {
@@ -209,6 +342,7 @@ public class ProfileFragment extends Fragment {
 //                userStatesEdit.apply();
 //                Intent intent = new Intent(getActivity(), FirstActivity.class);
 //                startActivity(intent);
+//                getActivity().finish()
 //            }
 //        });
 

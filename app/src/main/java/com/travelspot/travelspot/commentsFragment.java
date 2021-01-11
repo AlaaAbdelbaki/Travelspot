@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 import com.travelspot.travelspot.Adapters.CommentAdapter;
 import com.travelspot.travelspot.Models.Comment;
@@ -27,6 +30,8 @@ import retrofit2.Response;
 public class commentsFragment extends Fragment {
 
     RecyclerView recyclerView;
+    TextInputEditText commentInput;
+    MaterialButton addCommentBtn;
     CommentAdapter mAdapter;
     PostsServices postsServices;
     private static int postid;
@@ -40,6 +45,7 @@ public class commentsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postsServices = ServicesClient.getClient().create(PostsServices.class);
+        
 
 
     }
@@ -81,6 +87,28 @@ public class commentsFragment extends Fragment {
                              Bundle savedInstanceState) {
        View v =inflater.inflate(R.layout.fragment_comments, container, false);
         recyclerView = v.findViewById(R.id.Comments);
+        commentInput = v.findViewById(R.id.commentInput);
+        addCommentBtn = v.findViewById(R.id.addCommentBtn);
+        addCommentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Comment comment = new Comment();
+                comment.setContent(commentInput.getText().toString());
+                comment.setUserId(UserSession.instance.getU().getId());
+                comment.setPostId(postid);
+                postsServices.addComment(comment).enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        Toast.makeText(getContext(), "Comment added Successfully !", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+                        Toast.makeText(getContext(), "Comment was not added !", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
